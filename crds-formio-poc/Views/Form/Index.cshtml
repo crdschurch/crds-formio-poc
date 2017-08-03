@@ -1,0 +1,25 @@
+﻿@using RestSharp.Extensions
+@model crds_formio_poc.Models.FormIo
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<html>
+<head>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/formiojs@2.3.4/dist/formio.form.min.css'>
+    <script src='https://unpkg.com/formiojs@2.3.4/dist/formio.form.min.js'></script>
+    <script type='text/javascript'>
+        window.onload = function() {
+            var form = new FormioForm(document.getElementById('formio'));
+            @*form.src = 'https://crossroads.form.io/' + @model.FormName;*@
+            form.form = @Html.Raw(Json.Serialize(Model.Form));
+            form.submission = @Html.Raw(Json.Serialize(Model.PrePopData));
+        };
+    </script>
+</head>
+<body>
+<div id='formio'></div>
+</body>
+</html>
