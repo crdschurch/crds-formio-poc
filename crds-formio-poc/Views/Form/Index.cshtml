@@ -13,9 +13,9 @@
     <script type='text/javascript'>
         window.onload = function() {
             var form = new FormioForm(document.getElementById('formio'));
-            @*form.src = 'https://crossroads.form.io/' + @model.FormName;*@
-            form.form = @Html.Raw(Json.Serialize(Model.Form));
-            form.submission = @Html.Raw(Json.Serialize(Model.PrePopData));
+            @*form.src = 'https://crossroads.form.io/@Model.FormName';*@
+            form.form = @Html.Raw(Model.Form);
+            form.submission = @Html.Raw(Model.PrePopData);
         };
     </script>
 </head>
