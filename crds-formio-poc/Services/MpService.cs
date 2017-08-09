@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Crossroads.Web.Common.Extensions;
 using Crossroads.Web.Common.MinistryPlatform;
 using Newtonsoft.Json.Linq;
@@ -28,11 +27,7 @@ namespace crds_formio_poc.Services
             var components = form.SelectTokens("..components[?(@.properties.data_table)]");
             
             //build a list
-            var data = new List<FieldInfo>();
-            foreach (var component in components)
-            {
-                data.Add( new FieldInfo{FieldName = component.SelectToken("..key").ToString(), DataTable = component.SelectToken("..data_table").ToString(), DataField = component.SelectToken("..data_field").ToString()});
-            }
+            var data = components.Select(component => new FieldInfo {FieldName = component.SelectToken("..key").ToString(), DataTable = component.SelectToken("..data_table").ToString(), DataField = component.SelectToken("..data_field").ToString()}).ToList();
 
             //build query
             foreach (var table in data.Select(d => d.DataTable).Distinct())
@@ -56,9 +51,8 @@ namespace crds_formio_poc.Services
             request.AddQueryParameterIfSpecified("$select", columnNames);
             var response = ministryPlatformRestClient.Execute(request);
             response.CheckForErrors("Error getting Data", true);
-            var junk = JArray.Parse(response.Content);
-            var data = junk.Children<JObject>().FirstOrDefault();
-            return data;
+            var mpData = JArray.Parse(response.Content);
+            return mpData.Children<JObject>().FirstOrDefault();
         }
     }
 

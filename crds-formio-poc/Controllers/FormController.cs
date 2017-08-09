@@ -6,9 +6,9 @@ namespace crds_formio_poc.Controllers
 {
     public class FormController : Controller
     {
-        public IActionResult Index()
+        [Route("/form/{formName}")]
+        public IActionResult Index(string formName)
         {
-            const string formName = "campercampingcamp";
             var formIo = new FormIoService();
             var mpService = new MpService();
 
